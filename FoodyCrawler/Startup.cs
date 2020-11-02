@@ -1,6 +1,8 @@
+using FoodyCrawler.Infrastructure;
 using FoodyCrawler.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +26,9 @@ namespace FoodyCrawler
             services.AddSwaggerGen();
 
             services.AddScoped<IFoodyService, FoodyService>();
+
+            services.AddDbContext<FoodyContext>(
+                options => options.UseSqlite(Configuration.GetConnectionString("FoodyContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
