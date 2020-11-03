@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace FoodyCrawler
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        protected IConfiguration Configuration { get; }
 
-        public IConfiguration Configuration { get; }
+        public Startup()
+        {
+            Configuration = BuildConfiguration();
+        }        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -25,10 +26,12 @@ namespace FoodyCrawler
 
             services.AddSwaggerGen();
 
-            services.AddScoped<IFoodyService, FoodyService>();
-
             services.AddDbContext<FoodyContext>(
-                options => options.UseSqlite(Configuration.GetConnectionString("FoodyContext")));
+                options => options.UseSqlite(Configuration.GetConnectionString("DatabaseConfig")));
+
+            services.AddScoped<IFoodyService, FoodyService>();
+            
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +40,7 @@ namespace FoodyCrawler
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }            
+            }
 
             app.UseHttpsRedirection();
 
@@ -56,6 +59,30 @@ namespace FoodyCrawler
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private IConfiguration BuildConfiguration()
+        {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var builder = new ConfigurationBuilder();
+
+            builder.Sources.Clear();
+
+            builder.AddJsonFile("appsettings.json", true, false);
+
+            builder.AddJsonFile($"appsettings.{environmentName}.json", true, false);
+
+            builder.AddJsonFile("secrets/appsettings.secrets.json", true, false);
+
+            if (environmentName == "Development")
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            builder.AddEnvironmentVariables();
+
+            return builder.Build();
         }
     }
 }

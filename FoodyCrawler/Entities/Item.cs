@@ -1,4 +1,4 @@
-﻿using FoodyCrawler.Models;
+﻿using System.Collections.Generic;
 
 namespace FoodyCrawler.Entities
 {
@@ -10,7 +10,7 @@ namespace FoodyCrawler.Entities
 
         public Price Price { get; set; }
 
-        public Photo[] Photos { get; set; }
+        public IEnumerable<Photo> Photos { get; set; }
 
         public Category Category { get; set; }
     }

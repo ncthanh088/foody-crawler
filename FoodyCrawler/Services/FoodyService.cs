@@ -1,7 +1,10 @@
-﻿using FoodyCrawler.Models;
+﻿using FoodyCrawler.Entities;
+using FoodyCrawler.Infrastructure;
+using FoodyCrawler.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -9,7 +12,37 @@ namespace FoodyCrawler.Services
 {
     public class FoodyService : IFoodyService
     {
-        public async Task<IEnumerable<MenuModel>> GetMasterData(string foodyUrl)
+        private readonly FoodyContext _foodyContext;
+
+        public FoodyService(FoodyContext foodyContext)
+        {
+            _foodyContext = foodyContext;
+        }
+
+        public async Task<int> GetMasterData(string foodyUrl)
+        {
+            var menuModels = await GetMenuModels(foodyUrl);
+
+            foreach (var item in menuModels)
+            {
+                _foodyContext.Categories.Add(new Category
+                {
+                    Name = item.CategoryName,
+                    Items = item.MenuItems.Select(x => new Entities.Item
+                    {
+                        Name = x.Name,
+                        Photos = x.Photos,
+                        Price = x.Price
+                    }).ToList()
+                });
+            }
+
+            var result = await _foodyContext.SaveChangesAsync();
+
+            return result;
+        }
+
+        private async Task<IEnumerable<MenuModel>> GetMenuModels(string foodyUrl)
         {
             using var client = new HttpClient();
 
@@ -26,7 +59,8 @@ namespace FoodyCrawler.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<Rootobject>(content).reply.menu_infos;
+            var result = JsonConvert.DeserializeObject<Rootobject>(content).
+                reply.menu_infos as IEnumerable<MenuModel>;
 
             return result;
         }

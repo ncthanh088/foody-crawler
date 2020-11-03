@@ -1,4 +1,6 @@
-﻿namespace FoodyCrawler.Models
+﻿using FoodyCrawler.Entities;
+
+namespace FoodyCrawler.Models
 {
     public class Rootobject
     {
@@ -45,12 +47,13 @@
         public string name { get; set; }
     }
 
-    public class Price
-    {
-        public string text { get; set; }
-        public string unit { get; set; }
-        public float value { get; set; }
-    }
+    //public class Price
+    //{
+    //    public int Id { get; set; }
+    //    public string text { get; set; }
+    //    public string unit { get; set; }
+    //    public float value { get; set; }
+    //}
 
     public class Time
     {
@@ -73,12 +76,13 @@
         public int value { get; set; }
     }
 
-    public class Photo
-    {
-        public int width { get; set; }
-        public string value { get; set; }
-        public int height { get; set; }
-    }
+    //public class Photo
+    //{
+    //    public int Id { get; set; }
+    //    public int width { get; set; }
+    //    public string value { get; set; }
+    //    public int height { get; set; }
+    //}
 
     public class Option
     {

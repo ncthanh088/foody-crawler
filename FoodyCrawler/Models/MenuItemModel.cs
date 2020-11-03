@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using FoodyCrawler.Entities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace FoodyCrawler.Models
 {
@@ -11,6 +13,6 @@ namespace FoodyCrawler.Models
         public Price Price { get; set; }
 
         [JsonProperty(PropertyName = "photos")]
-        public Photo[] Photos { get; set; }
+        public IEnumerable<Photo> Photos { get; set; }
     }
 }

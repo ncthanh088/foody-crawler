@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodyCrawler", "FoodyCrawler\FoodyCrawler.csproj", "{5FB321B6-02DB-4300-BF4B-48CC345040C2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{4BD40EEA-3074-4C54-A487-3CC37A1E23A8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4BD40EEA-3074-4C54-A487-3CC37A1E23A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodyCrawlerTest", "Test\FoodyCrawlerTest\FoodyCrawlerTest.csproj", "{5832FEAE-CE67-444B-A075-4249B6933495}"
 EndProject
