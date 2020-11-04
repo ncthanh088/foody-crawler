@@ -13,7 +13,6 @@ namespace FoodyCrawler.Infrastructure
         public DbSet<Item> Items { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Price> Prices { get; set; }
-        public DbSet<Order> Orders { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserOrder> UserOrders { get; set; }
        
@@ -26,9 +25,7 @@ namespace FoodyCrawler.Infrastructure
             modelBuilder.Entity<Photo>().ToTable("Photo");
 
             modelBuilder.Entity<Price>().ToTable("Price");
-            
-            modelBuilder.Entity<Order>().ToTable("Order");
-            
+                        
             modelBuilder.Entity<User>().ToTable("User");            
 
             modelBuilder.Entity<UserOrder>().ToTable("UserOrder");

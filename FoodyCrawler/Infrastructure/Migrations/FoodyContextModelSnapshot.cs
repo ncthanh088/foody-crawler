@@ -45,32 +45,13 @@ namespace FoodyCrawler.Infrastructure.Migrations
                     b.Property<int?>("PriceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserOrderId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("PriceId");
 
-                    b.HasIndex("UserOrderId");
-
                     b.ToTable("Item");
-                });
-
-            modelBuilder.Entity("FoodyCrawler.Entities.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Restaurant")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("FoodyCrawler.Entities.Photo", b =>
@@ -141,18 +122,18 @@ namespace FoodyCrawler.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ItemId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("UserId");
 
@@ -168,10 +149,6 @@ namespace FoodyCrawler.Infrastructure.Migrations
                     b.HasOne("FoodyCrawler.Entities.Price", "Price")
                         .WithMany()
                         .HasForeignKey("PriceId");
-
-                    b.HasOne("FoodyCrawler.Entities.UserOrder", null)
-                        .WithMany("Item")
-                        .HasForeignKey("UserOrderId");
                 });
 
             modelBuilder.Entity("FoodyCrawler.Entities.Photo", b =>
@@ -183,9 +160,9 @@ namespace FoodyCrawler.Infrastructure.Migrations
 
             modelBuilder.Entity("FoodyCrawler.Entities.UserOrder", b =>
                 {
-                    b.HasOne("FoodyCrawler.Entities.Order", null)
-                        .WithMany("UserOrders")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("FoodyCrawler.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId");
 
                     b.HasOne("FoodyCrawler.Entities.User", "User")
                         .WithMany()

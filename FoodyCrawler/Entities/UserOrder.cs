@@ -6,10 +6,10 @@ namespace FoodyCrawler.Entities
     {
         public int Id { get; set; }
         
-        public string Username { get; set; }
-
-        public IEnumerable<Item> Items { get; set; }
-
+        public int Amount { get; set; }
+        
         public User User { get; set; }
+
+        public Item Item { get; set; }
     }
 }

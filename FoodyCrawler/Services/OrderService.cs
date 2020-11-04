@@ -1,6 +1,4 @@
-﻿using FoodyCrawler.Entities;
-using FoodyCrawler.Infrastructure;
-using System.Threading.Tasks;
+﻿using FoodyCrawler.Infrastructure;
 
 namespace FoodyCrawler.Services
 {
@@ -11,13 +9,6 @@ namespace FoodyCrawler.Services
         public OrderService(FoodyContext foodyContext)
         {
             _foodyContext = foodyContext;
-        }
-
-        public async Task<int> Create(Order order)
-        {
-            _foodyContext.Orders.Add(order);
-
-            return await _foodyContext.SaveChangesAsync();
         }
     }
 }
