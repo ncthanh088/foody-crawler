@@ -13,5 +13,7 @@ namespace FoodyCrawler.Entities
         public IEnumerable<Photo> Photos { get; set; }
 
         public Category Category { get; set; }
+
+        public IList<UserItem> UserOrders { get; set; }
     }
 }

@@ -21,38 +21,22 @@ namespace FoodyCrawler.Controllers
             _orderService = orderService;
         }
 
-        [HttpGet]
-        public async Task GetFoodyMenu()
+        [HttpGet("GetFoodyMenu")]
+        public async Task<ActionResult> GetFoodyMenu()
         {
             var foodyUrl = "https://gappapi.deliverynow.vn/api/dish/get_delivery_dishes?id_type=2&request_id=34383";
 
-            await _foodyService.GetMasterData(foodyUrl);
+            var result = await _foodyService.GetMasterData(foodyUrl);
+
+            return Ok(result);
         }
 
-        //[HttpGet]
-        ////routin for this
-        //public async Task OrderMenu()
-        //{
-        //    var userOrder = new UserOrder
-        //    {
-        //        User = new User
-        //        {
-        //            Username = "Username",
-        //            Password = "P@ssw0rd"
-        //        }
-        //    };
+        [HttpGet("GetOrder")]        
+        public async Task<ActionResult> GetOrder()
+        {
+            var result = await _orderService.GetOrder();
 
-        //    var userOrders = new List<UserOrder>();
-        //    userOrders.Add(userOrder);
-
-        //    var order = new Order
-        //    {
-        //        Restaurant = "Coo Ba",
-        //        UserOrders = userOrders
-
-        //    };
-
-        //    await _orderService.Create(order);
-        //}
+            return Ok(result);
+        }
     }
 }

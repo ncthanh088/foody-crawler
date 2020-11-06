@@ -14,8 +14,8 @@ namespace FoodyCrawler.Infrastructure
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<UserOrder> UserOrders { get; set; }
-       
+        public DbSet<UserItem> UserItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().ToTable("Category");
@@ -25,10 +25,13 @@ namespace FoodyCrawler.Infrastructure
             modelBuilder.Entity<Photo>().ToTable("Photo");
 
             modelBuilder.Entity<Price>().ToTable("Price");
-                        
-            modelBuilder.Entity<User>().ToTable("User");            
 
-            modelBuilder.Entity<UserOrder>().ToTable("UserOrder");
+            modelBuilder.Entity<User>().ToTable("User");
+
+            modelBuilder.Entity<UserItem>().ToTable("UserItem");
+
+
+            modelBuilder.Entity<UserItem>().HasKey(ui => new { ui.UserId, ui.ItemId });
         }
     }
 }

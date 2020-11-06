@@ -1,4 +1,6 @@
 ﻿using FoodyCrawler.Entities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace FoodyCrawler.Models
 {
@@ -8,22 +10,34 @@ namespace FoodyCrawler.Models
         public string result { get; set; }
     }
 
-    //public class Reply
-    //{
-    //    public Menu_Infos[] menu_infos { get; set; }
-    //}
+    public class MenuModel
+    {
+        [JsonProperty(PropertyName = "dish_type_id")]
+        public int CategoryId { get; set; }
+
+        [JsonProperty(PropertyName = "dish_type_name")]
+        public string CategoryName { get; set; }
+
+        [JsonProperty(PropertyName = "dishes")]
+        public List<MenuItemModel> MenuItems { get; set; }
+    }
+
+    public class MenuItemModel
+    {
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "price")]
+        public Price Price { get; set; }
+
+        [JsonProperty(PropertyName = "photos")]
+        public IEnumerable<Photo> Photos { get; set; }
+    }
 
     public class Reply
     {
         public MenuModel[] menu_infos { get; set; }
     }
-
-    //public class Menu_Infos
-    //{
-    //    public int dish_type_id { get; set; }
-    //    public string dish_type_name { get; set; }
-    //    public Dish[] dishes { get; set; }
-    //}
 
     public class Dish
     {
