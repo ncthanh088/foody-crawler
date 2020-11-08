@@ -1,4 +1,5 @@
-﻿using FoodyCrawler.Infrastructure;
+﻿using FoodyCrawler.Entities;
+using FoodyCrawler.Infrastructure;
 using FoodyCrawler.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -16,25 +17,51 @@ namespace FoodyCrawler.Services
             _context = foodyContext;
         }
 
-        public async Task<IList<OrderModel>> GetOrder()
+        public async Task<IEnumerable<UserOrderModel>> GetOrders()
         {
-            var orders = await _context.UserItems
-                .Include(ui => ui.User)
-                .Include(ui => ui.Item)
-                    .ThenInclude(i=>i.Category)
-                .Include(ui => ui.Item)
-                    .ThenInclude(i => i.Photos)
-                .Include(ui => ui.Item)
-                    .ThenInclude(i => i.Price)
-                .Select(o => new OrderModel
+
+            var userOrders = await _context.UserItems
+                .Select(userOrder => new UserOrderModel
                 {
-                    SDCode = o.User.SDCode,
-                    Item = o.Item,
-                    Amount = o.Amount
+                    Username = userOrder.User.Username,
+                    SDcode = userOrder.User.SDCode,
+                    Item = userOrder.Item,
+                    Amount = userOrder.Amount,
+                    Price = userOrder.Item.Price.value,
+                    Total = (userOrder.Amount * userOrder.Item.Price.value)
                 })
                 .ToListAsync();
 
-            return orders;
+            return userOrders;
+        }
+
+        public async Task CreateOrder(OrderDetailModel orderDetailModel)
+        {
+            foreach (var item in orderDetailModel.OrderModels)
+            {
+                var userItem = new UserItem
+                {
+                    UserId = orderDetailModel.UserId,
+                    ItemId = item.ItemId,
+                    Amount = item.Amount
+                };
+
+                var userItemEntity = _context.UserItems
+                    .Where(x => x.UserId == userItem.UserId
+                        && x.ItemId == userItem.ItemId)
+                    .FirstOrDefault();
+
+                if (userItemEntity == null)
+                {
+                    _context.UserItems.Add(userItem);
+                }
+                else
+                {
+                    userItemEntity.Amount = userItem.Amount;
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

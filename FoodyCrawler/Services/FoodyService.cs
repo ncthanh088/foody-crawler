@@ -44,7 +44,21 @@ namespace FoodyCrawler.Services
 
         private async Task<IEnumerable<MenuModel>> GetMenuModels(string foodyUrl)
         {
-            using var client = new HttpClient();
+            var httpClient = CreateHttpClient(foodyUrl);
+
+            var response = await httpClient.GetAsync(foodyUrl);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<Rootobject>(content).
+                reply.menu_infos as IEnumerable<MenuModel>;
+
+            return result;
+        }
+
+        private static HttpClient CreateHttpClient(string foodyUrl)
+        {
+            var client = new HttpClient();
 
             client.BaseAddress = new Uri(foodyUrl);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -54,15 +68,8 @@ namespace FoodyCrawler.Services
             client.DefaultRequestHeaders.Add("x-foody-client-type", "1");
             client.DefaultRequestHeaders.Add("x-foody-client-version", "3.0.0");
             client.DefaultRequestHeaders.Add("x-foody-client-id", "");
-
-            var response = await client.GetAsync(foodyUrl);
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            var result = JsonConvert.DeserializeObject<Rootobject>(content).
-                reply.menu_infos as IEnumerable<MenuModel>;
-
-            return result;
+            
+            return client;
         }
     }
 }

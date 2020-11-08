@@ -22,8 +22,11 @@ namespace FoodyCrawler
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddControllers().AddNewtonsoftJson(options =>
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddSwaggerGen();
 
             services.AddDbContext<FoodyContext>(
@@ -49,14 +52,15 @@ namespace FoodyCrawler
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            });         
 
-            app.UseCors(builder => builder
+            app.UseRouting();
+
+            // global cors policy
+            app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
-            app.UseRouting();
 
             app.UseAuthorization();
 

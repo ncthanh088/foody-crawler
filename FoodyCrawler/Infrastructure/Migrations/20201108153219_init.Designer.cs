@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodyCrawler.Infrastructure.Migrations
 {
     [DbContext(typeof(FoodyContext))]
-    [Migration("20201106092725_init")]
+    [Migration("20201108153219_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

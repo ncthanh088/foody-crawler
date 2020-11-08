@@ -1,7 +1,5 @@
-﻿using FoodyCrawler.Entities;
-using FoodyCrawler.Services;
+﻿using FoodyCrawler.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FoodyCrawler.Controllers
@@ -11,30 +9,19 @@ namespace FoodyCrawler.Controllers
     public class FoodyController : ControllerBase
     {
         private readonly IFoodyService _foodyService;
-        private readonly IOrderService _orderService;
 
         public FoodyController(
-            IFoodyService foodyService,
-            IOrderService orderService)
+            IFoodyService foodyService)
         {
             _foodyService = foodyService;
-            _orderService = orderService;
         }
 
         [HttpGet("GetFoodyMenu")]
         public async Task<ActionResult> GetFoodyMenu()
         {
-            var foodyUrl = "https://gappapi.deliverynow.vn/api/dish/get_delivery_dishes?id_type=2&request_id=34383";
+            var shopUrl = "https://gappapi.deliverynow.vn/api/dish/get_delivery_dishes?request_id=69762&id_type=1";
 
-            var result = await _foodyService.GetMasterData(foodyUrl);
-
-            return Ok(result);
-        }
-
-        [HttpGet("GetOrder")]        
-        public async Task<ActionResult> GetOrder()
-        {
-            var result = await _orderService.GetOrder();
+            var result = await _foodyService.GetMasterData(shopUrl);
 
             return Ok(result);
         }

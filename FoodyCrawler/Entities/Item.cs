@@ -16,4 +16,26 @@ namespace FoodyCrawler.Entities
 
         public IList<UserItem> UserOrders { get; set; }
     }
+
+    public class Price
+    {
+        public int Id { get; set; }
+
+        public string text { get; set; }
+
+        public string unit { get; set; }
+
+        public float value { get; set; }
+    }
+
+    public class Photo
+    {
+        public int Id { get; set; }
+
+        public int Width { get; set; }
+
+        public string Value { get; set; }
+
+        public int Height { get; set; }
+    }
 }

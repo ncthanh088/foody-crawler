@@ -6,6 +6,7 @@ namespace FoodyCrawler.Services
 {
     public interface IOrderService
     {
-        Task<IList<OrderModel>> GetOrder();
+        Task<IEnumerable<UserOrderModel>> GetOrders();
+        Task CreateOrder(OrderDetailModel orderDetailModel);
     }
 }
